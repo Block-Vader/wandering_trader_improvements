@@ -74,8 +74,6 @@ public class TradeAdjustments {
 		rareTrades.add(new ItemsForEmeraldsTrade(Blocks.MYCELIUM, 3, 3, 6, 1));
 		rareTrades.add(new ItemsForEmeraldsTrade(Blocks.SPONGE, 10, 1, 4, 2));
 		rareTrades.add(new ItemsForEmeraldsTrade(Items.ENCHANTED_GOLDEN_APPLE, 64, 1, 1, 5));
-		//rareTrades.add(new MightyPotionsTrade(0, 8, 2, 2));
-		//rareTrades.add(new MightyPotionsTrade(1, 12, 3, 2));
 		rareTrades.add(new TreasureEnchantmentsTrade(1, 3));
 		rareTrades.add(new ItemsForEmeraldsTrade(Items.TURTLE_EGG, 6, 1, 4, 1));
 		rareTrades.add(new BeeNestTrade(3, 10, 1, 2));

@@ -42,7 +42,6 @@ public class WanderingTraderVillageSpawner {
 			if (world.getDayTime() % 24000 == 450)
 			{
 				int daysSinceSpawned = spawnDelay/24000;
-				//.println("It's morning, day " + daysSinceSpawned);
 				if (random.nextInt(8) < daysSinceSpawned)
 				{
 					PlayerEntity playerentity = this.world.getRandomPlayer();

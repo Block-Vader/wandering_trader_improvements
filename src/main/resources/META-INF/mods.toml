@@ -1,14 +1,12 @@
 modLoader="javafml"
 loaderVersion="[31,)"
 issueTrackerURL="https://github.com/Block-Vader/wandering_trader_improvements/issues"
-# A list of mods - how many allowed here is determined by the individual mod loader
-[[mods]] #mandatory
+[[mods]]
 modId="wt_improvements"
-version="1.15.2-0.0.0.2"
+version="1.15.2-1.0.0.0"
 displayName="Wandering Trader Improvements"
-displayURL="https://www.curseforge.com/minecraft/mc-mods/wandering-trader-improvements" #optional
-# A file name (in the root of the mod JAR) containing a logo for display
-logoFile="examplemod.png" #optional
+displayURL="https://www.curseforge.com/minecraft/mc-mods/wandering-trader-improvements"
+logoFile="logo.png"
 credits="BlockVader"
 authors="BlockVader"
 description='''
@@ -17,14 +15,13 @@ This mod gives the Wandering Trader significantly better trades. It also makes h
 But be careful, when you try to trade with him, you may encounter a nasty surprise.
 '''
 
-[[dependencies.examplemod]] #optional
+[[dependencies.examplemod]]
     modId="forge"
     mandatory=true
     versionRange="[31,)"
     ordering="NONE"
     side="BOTH"
-    
-# Here's another dependency
+
 [[dependencies.examplemod]]
     modId="minecraft"
     mandatory=true

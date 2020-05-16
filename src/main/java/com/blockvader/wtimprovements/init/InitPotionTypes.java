@@ -27,12 +27,15 @@ public class InitPotionTypes {
 	public static Potion MIGHTY_REGENERATION;
 	public static Potion MIGHTY_STRENGTH;
 	public static Potion MIGHTY_SLOW_FALLING;
-	//Modded
+	//Quark
 	public static Potion MIGHTY_FORTITUDE;
 	public static Potion MIGHTY_DANFER_SIGHT;
 	public static Potion MIGHTY_STABILITY;
+	//Atmospheric
 	public static Potion MIGHTY_RELIEF;
+	//Buzzier bees
 	public static Potion MIGHTY_LUCK;
+	//Upgrade aquatic
 	public static Potion MIGHTY_RESTFULNESS;
 	public static Potion MIGHTY_REPELLENCE;
 	public static Potion MIGHTY_VIBING;
@@ -132,5 +135,4 @@ public class InitPotionTypes {
 			luckCreated = true;
 		}
 	}
-
 }

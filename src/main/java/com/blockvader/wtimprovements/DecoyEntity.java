@@ -188,5 +188,4 @@ public class DecoyEntity extends LivingEntity {
 			}
 		}
 	}
-
 }

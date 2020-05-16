@@ -68,11 +68,9 @@ public class IllusionerAmbush {
 	{
 		if (event.getName().toString().equals("minecraft:entities/illusioner"))
 		{
-			System.out.println("Illusioner loot table found");
 			LootTable table = event.getLootTableManager().getLootTableFromLocation(new ResourceLocation(WTImprovements.MOD_ID + ":injects/illusioner"));
 			LootPool pool = table.getPool(WTImprovements.MOD_ID + ":totem_of_decoy");
 			event.getTable().addPool(pool);
-			System.out.println("Illusioner loot table modified");
 		}
 	}
 	

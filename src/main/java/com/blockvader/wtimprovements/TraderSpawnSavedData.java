@@ -60,5 +60,4 @@ public class TraderSpawnSavedData extends WorldSavedData{
 		instance.markDirty();
 		return instance;
 	}
-
 }

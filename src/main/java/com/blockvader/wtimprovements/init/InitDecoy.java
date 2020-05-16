@@ -35,5 +35,4 @@ public class InitDecoy {
 		TOTEM_OF_DECOY = new DecoyTotemItem(new Properties().maxStackSize(16).rarity(Rarity.UNCOMMON).group(ItemGroup.COMBAT)).setRegistryName("totem_of_decoy");
 		event.getRegistry().register(TOTEM_OF_DECOY);
 	}
-
 }
