@@ -1,12 +1,12 @@
 modLoader="javafml"
 loaderVersion="[31,)"
-issueTrackerURL="http://my.issue.tracker/" #optional
+issueTrackerURL="https://github.com/Block-Vader/wandering_trader_improvements/issues"
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
 modId="wt_improvements"
-version="1.15.2-0.0.0.1"
-displayName="Wandering trader improvements"
-displayURL="http://example.com/" #optional
+version="1.15.2-0.0.0.2"
+displayName="Wandering Trader Improvements"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/wandering-trader-improvements" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile="examplemod.png" #optional
 credits="BlockVader"
@@ -14,19 +14,16 @@ authors="BlockVader"
 description='''
 This mod gives the Wandering Trader significantly better trades. It also makes him appear more frequently and consistently in villages.
 
-But be careful, when you try to trade with him, you may encounter a nasty surprise.'''
-# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
+But be careful, when you try to trade with him, you may encounter a nasty surprise.
+'''
+
 [[dependencies.examplemod]] #optional
-    # the modid of the dependency
-    modId="forge" #mandatory
-    # Does this dependency have to exist - if not, ordering below must be specified
-    mandatory=true #mandatory
-    # The version range of the dependency
-    versionRange="[31,)" #mandatory
-    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+    modId="forge"
+    mandatory=true
+    versionRange="[31,)"
     ordering="NONE"
-    # Side this dependency is applied on - BOTH, CLIENT or SERVER
     side="BOTH"
+    
 # Here's another dependency
 [[dependencies.examplemod]]
     modId="minecraft"

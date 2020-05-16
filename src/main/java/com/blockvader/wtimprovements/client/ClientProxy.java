@@ -13,5 +13,4 @@ public class ClientProxy {
 		Minecraft.getInstance().getItemRenderer().getItemModelMesher().register(InitDecoy.TOTEM_OF_DECOY, new ModelResourceLocation(InitDecoy.TOTEM_OF_DECOY.getRegistryName(), "inventory"));
 		RenderingRegistry.registerEntityRenderingHandler(InitDecoy.DECOY, DecoyRenderer::new);
 	}
-
 }

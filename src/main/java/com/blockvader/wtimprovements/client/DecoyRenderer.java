@@ -105,12 +105,8 @@ public class DecoyRenderer extends LivingRenderer<DecoyEntity, DecoyModel<DecoyE
 	@Override
 	public ResourceLocation getEntityTexture(DecoyEntity entity)
 	{
-		if (entity.getFakeId() != null)
-		{
-			NetworkPlayerInfo info = Minecraft.getInstance().getConnection().getPlayerInfo(entity.getFakeId());
-			return info == null ? DefaultPlayerSkin.getDefaultSkin(entity.getFakeId()) : info.getLocationSkin();
-		}
-		return null;
+		NetworkPlayerInfo info = Minecraft.getInstance().getConnection().getPlayerInfo(entity.getFakeId());
+		return info == null ? DefaultPlayerSkin.getDefaultSkin(entity.getFakeId()) : info.getLocationSkin();
 	}
 	
 	protected void func_225620_a_(DecoyEntity p_225620_1_, MatrixStack p_225620_2_, float p_225620_3_)

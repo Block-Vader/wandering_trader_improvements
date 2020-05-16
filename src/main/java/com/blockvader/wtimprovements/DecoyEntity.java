@@ -29,6 +29,7 @@ public class DecoyEntity extends LivingEntity {
 
 	public DecoyEntity(EntityType<? extends DecoyEntity> type, World worldIn) {
 		super(type, worldIn);
+		dataManager.set(FAKE_ID, Optional.of(UUID.fromString("6ab43178-89fd-4905-97f6-0f67d9d76fd9")));
 	}
 	
 	public void copyPlayer(PlayerEntity player)
@@ -102,7 +103,7 @@ public class DecoyEntity extends LivingEntity {
 	
 	public UUID getFakeId()
 	{
-		return this.dataManager.get(FAKE_ID).orElse(null);
+		return this.dataManager.get(FAKE_ID).orElse(UUID.fromString("6ab43178-89fd-4905-97f6-0f67d9d76fd9"));
 	}
 	
 	public void setFakeId(UUID id)
