@@ -7,7 +7,7 @@ version="1.15.2-1.0.1.0"
 displayName="Wandering Trader Improvements"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/wandering-trader-improvements"
 logoFile="logo.png"
-credits="BlockVader"
+credits="BlockVader, BardinTheDwarf (Russian translation)"
 authors="BlockVader"
 description='''
 This mod gives the Wandering Trader significantly better trades. It also makes him appear more frequently and consistently in villages.
