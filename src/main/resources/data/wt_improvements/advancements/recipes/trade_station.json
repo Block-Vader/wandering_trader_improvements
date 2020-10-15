@@ -1,0 +1,23 @@
+{
+	"parent":"minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"wt_improvements:trade_station"
+		]
+	},
+	"criteria": {
+		"met_wandering_trader": {
+			"trigger": "minecraft:villager_trade",
+			"conditions": {
+				"villager": {
+					"type": "minecraft:wandering_trader"
+				}
+			}
+		}
+	},
+	"requirements": [
+		[
+			"met_wandering_trader"
+		]
+	]
+}

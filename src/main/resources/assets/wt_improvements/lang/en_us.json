@@ -1,6 +1,8 @@
 {
 	"entity.wt_improvements.decoy":"Decoy",
 	"item.wt_improvements.totem_of_decoy":"Totem of Decoy",
+	"block.wt_improvements.trade_station":"Trade Station",
+	"item.wt_improvements.trade_station":"Trade Station",
 	"item.minecraft.potion.effect.mighty_night_vision": "Mighty Potion of Night Vision",
 	"item.minecraft.potion.effect.mighty_invisibility": "Mighty Potion of Invisibility",
 	"item.minecraft.potion.effect.mighty_leaping": "Mighty Potion of Leaping",
@@ -76,5 +78,6 @@
 	"item.minecraft.tipped_arrow.effect.mighty_restfulness": "Mighty Arrow of Restfulness",
 	"item.minecraft.tipped_arrow.effect.mighty_repellence": "Mighty Arrow of Repellence",
 	"item.minecraft.tipped_arrow.effect.mighty_vibing": "Mighty Arrow of Vibing",
-	"item.minecraft.tipped_arrow.effect.mighty_luck": "Mighty Arrow of Luck"
+	"item.minecraft.tipped_arrow.effect.mighty_luck": "Mighty Arrow of Luck",
+	"subtitles.wt_improvements.block.trade_station.ding": "Trade Station bell dings"
 }

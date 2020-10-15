@@ -1,0 +1,21 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"BE",
+		"WW"
+	],
+	"key": {
+		"W": {
+			"tag": "minecraft:planks"
+		},
+		"B": {
+			"item": "minecraft:bell"
+		},
+		"E":{
+			"tag": "forge:gems/emerald"
+		}
+	},
+	"result": {
+		"item": "wt_improvements:trade_station"
+	}
+}
