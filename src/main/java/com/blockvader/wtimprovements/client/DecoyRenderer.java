@@ -35,6 +35,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class DecoyRenderer extends LivingRenderer<DecoyEntity, DecoyModel<DecoyEntity>>{
 
+
 	public DecoyRenderer(EntityRendererManager renderManager)
 	{
 		super(renderManager, new DecoyModel<>(0.0F), 0.5F);

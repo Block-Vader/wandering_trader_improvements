@@ -1,10 +1,18 @@
 modLoader="javafml"
+<<<<<<< HEAD
 loaderVersion="[34,)"
 license="All rights reserved"
 issueTrackerURL="https://github.com/Block-Vader/wandering_trader_improvements/issues"
 [[mods]]
 modId="wt_improvements"
 version="1.16.3-1.0.1.0"
+=======
+loaderVersion="[31,)"
+issueTrackerURL="https://github.com/Block-Vader/wandering_trader_improvements/issues"
+[[mods]]
+modId="wt_improvements"
+version="1.15.2-1.0.1.0"
+>>>>>>> b480f361bc504d31bc46b4a85d90e1801a0c1f78
 displayName="Wandering Trader Improvements"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/wandering-trader-improvements"
 logoFile="logo.png"
@@ -19,13 +27,21 @@ But be careful, when you try to trade with him, you may encounter a nasty surpri
 [[dependencies.examplemod]]
     modId="forge"
     mandatory=true
+<<<<<<< HEAD
     versionRange="[34,)"
+=======
+    versionRange="[31,)"
+>>>>>>> b480f361bc504d31bc46b4a85d90e1801a0c1f78
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.examplemod]]
     modId="minecraft"
     mandatory=true
+<<<<<<< HEAD
     versionRange="[1.16.3]"
+=======
+    versionRange="[1.15.2]"
+>>>>>>> b480f361bc504d31bc46b4a85d90e1801a0c1f78
     ordering="NONE"
     side="BOTH"

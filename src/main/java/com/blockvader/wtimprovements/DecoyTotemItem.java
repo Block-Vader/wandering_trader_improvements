@@ -33,7 +33,6 @@ public class DecoyTotemItem extends Item{
 			stack.shrink(1);
 			playerIn.getCooldownTracker().setCooldown(this, 400);
 		}
-		System.out.println(worldIn.isRemote);
 		if (!worldIn.isRemote)
 		{
 			DecoyEntity decoy = new DecoyEntity(InitDecoy.DECOY, worldIn);
