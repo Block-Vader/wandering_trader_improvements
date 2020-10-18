@@ -1,0 +1,7 @@
+{
+	"block.trade_station.ding":{
+		"category": "block",
+		"subtitle": "subtitles.wt_improvements.block.trade_station.ding",
+		"sounds": [ "wt_improvements:block_trade_station_ding" ]
+	}
+}

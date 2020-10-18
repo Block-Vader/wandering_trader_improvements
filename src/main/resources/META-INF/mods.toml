@@ -1,0 +1,31 @@
+modLoader="javafml"
+loaderVersion="[34,)"
+license="All rights reserved"
+issueTrackerURL="https://github.com/Block-Vader/wandering_trader_improvements/issues"
+[[mods]]
+modId="wt_improvements"
+version="1.16.3-1.0.1.0"
+displayName="Wandering Trader Improvements"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/wandering-trader-improvements"
+logoFile="logo.png"
+credits="BlockVader, BardinTheDwarf (Russian translation)"
+authors="BlockVader"
+description='''
+This mod gives the Wandering Trader significantly better trades. It also makes him appear more frequently and consistently in villages.
+
+But be careful, when you try to trade with him, you may encounter a nasty surprise.
+'''
+
+[[dependencies.examplemod]]
+    modId="forge"
+    mandatory=true
+    versionRange="[34,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.examplemod]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.3]"
+    ordering="NONE"
+    side="BOTH"
