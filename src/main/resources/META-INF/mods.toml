@@ -1,7 +1,7 @@
 modLoader="javafml"
 <<<<<<< HEAD
 loaderVersion="[34,)"
-license="All rights reserved"
+license="MIT License"
 issueTrackerURL="https://github.com/Block-Vader/wandering_trader_improvements/issues"
 [[mods]]
 modId="wt_improvements"
