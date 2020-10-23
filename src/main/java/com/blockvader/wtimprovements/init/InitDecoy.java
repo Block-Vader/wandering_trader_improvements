@@ -6,6 +6,8 @@ import com.blockvader.wtimprovements.WTImprovements;
 
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraft.item.ItemGroup;
@@ -27,6 +29,7 @@ public class InitDecoy {
 		DECOY = EntityType.Builder.create(DecoyEntity::new, EntityClassification.MISC).size(0.6F, 1.8F).build(WTImprovements.MOD_ID+":decoy");
 		DECOY.setRegistryName("decoy");
 		event.getRegistry().register(DECOY);
+		GlobalEntityTypeAttributes.put(DECOY, MobEntity.func_233666_p_().func_233813_a_());
 	}
 	
 	@SubscribeEvent
