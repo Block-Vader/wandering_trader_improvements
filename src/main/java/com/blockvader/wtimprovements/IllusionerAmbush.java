@@ -3,7 +3,8 @@ package com.blockvader.wtimprovements;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.blockvader.wtimprovements.init.InitTileEntities;
+import com.blockvader.wtimprovements.init.ModItems;
+import com.blockvader.wtimprovements.init.ModTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -12,11 +13,12 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
 import net.minecraft.entity.monster.IllusionerEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.loot.ItemLootEntry;
 import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTable;
+import net.minecraft.loot.RandomValueRange;
+import net.minecraft.loot.functions.SetCount;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -56,7 +58,7 @@ public class IllusionerAmbush {
 					Map<BlockPos, TileEntity> teMap = chunk.getTileEntityMap();
 					for (TileEntity te: teMap.values())
 					{
-						if (te.getType() == InitTileEntities.TRADE_STATION)
+						if (te.getType() == ModTileEntities.TRADE_STATION)
 						{
 							BlockPos pos = te.getPos();
 							BlockState state = entity.getEntityWorld().getBlockState(pos);
@@ -70,22 +72,6 @@ public class IllusionerAmbush {
 						}
 					}
 				}
-				/*
-				for (TileEntity te: entity.getEntityWorld().loadedTileEntityList)
-				{
-					BlockPos pos = te.getPos();
-					if (te.getType() == InitTileEntities.TRADE_STATION && entity.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()) < 16384)
-					{
-						BlockState state = entity.getEntityWorld().getBlockState(pos);
-						BlockPos pos1 = pos.offset(state.get(TradeStationBlock.FACING));
-						if (entity.attemptTeleport(pos1.getX() + 0.5D, pos1.getY(), pos1.getZ() + 0.5D, false))
-						{
-							//Trade station will play a sound and emit redstone puls
-							((TradeStationBlock)state.getBlock()).activate(state, pos, entity.getEntityWorld());
-							return;
-						}
-					}
-				}*/
 			}
 		}
 	}
@@ -133,10 +119,9 @@ public class IllusionerAmbush {
 	@SubscribeEvent
 	public static void onLoottableLoad(LootTableLoadEvent event)
 	{
-		if (event.getName().toString().equals("minecraft:entities/illusioner"))
+		if (event.getName().equals(EntityType.ILLUSIONER.getLootTable()))
 		{
-			LootTable table = event.getLootTableManager().getLootTableFromLocation(new ResourceLocation(WTImprovements.MOD_ID + ":injects/illusioner"));
-			LootPool pool = table.getPool(WTImprovements.MOD_ID + ":totem_of_decoy");
+			LootPool pool = LootPool.builder().addEntry(ItemLootEntry.builder(ModItems.TOTEM_OF_DECOY).acceptFunction(SetCount.builder(new RandomValueRange(2, 3)))).name("totem_of_decoy").build();
 			event.getTable().addPool(pool);
 		}
 	}
