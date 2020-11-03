@@ -1,6 +1,6 @@
 package com.blockvader.wtimprovements;
 
-import com.blockvader.wtimprovements.init.InitDecoy;
+import com.blockvader.wtimprovements.init.ModEntities;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
@@ -35,7 +35,7 @@ public class DecoyTotemItem extends Item{
 		}
 		if (!worldIn.isRemote)
 		{
-			DecoyEntity decoy = new DecoyEntity(InitDecoy.DECOY, worldIn);
+			DecoyEntity decoy = new DecoyEntity(ModEntities.DECOY.get(), worldIn);
 			decoy.copyPlayer(playerIn);
 			worldIn.addEntity(decoy);
 			playerIn.addPotionEffect(new EffectInstance(Effects.INVISIBILITY, 200, 0, false, false));

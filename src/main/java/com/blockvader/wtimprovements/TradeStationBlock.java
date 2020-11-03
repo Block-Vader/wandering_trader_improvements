@@ -2,7 +2,7 @@ package com.blockvader.wtimprovements;
 
 import java.util.Random;
 
-import com.blockvader.wtimprovements.init.InitTileEntities;
+import com.blockvader.wtimprovements.init.ModTileEntities;
 import com.blockvader.wtimprovements.init.ModSoundEvents;
 
 import net.minecraft.block.Block;
@@ -77,7 +77,7 @@ public class TradeStationBlock extends Block {
 	
 	public void activate(BlockState state, BlockPos pos, World world)
 	{
-		world.playSound(null, pos, ModSoundEvents.BLOCK_TRADE_STATION_DING, SoundCategory.BLOCKS, 1.0f, 1.0f);
+		world.playSound(null, pos, ModSoundEvents.BLOCK_TRADE_STATION_DING.get(), SoundCategory.BLOCKS, 1.0f, 1.0f);
 		world.setBlockState(pos, state.with(POWERED, Boolean.valueOf(true)), 3);
 		world.notifyNeighborsOfStateChange(pos, this);
 		world.getPendingBlockTicks().scheduleTick(pos, this, 20);
@@ -99,7 +99,7 @@ public class TradeStationBlock extends Block {
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
-		return InitTileEntities.TRADE_STATION.create();
+		return ModTileEntities.TRADE_STATION.get().create();
 	}
 
 }

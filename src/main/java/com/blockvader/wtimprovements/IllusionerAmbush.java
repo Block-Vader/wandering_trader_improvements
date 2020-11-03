@@ -58,7 +58,7 @@ public class IllusionerAmbush {
 					Map<BlockPos, TileEntity> teMap = chunk.getTileEntityMap();
 					for (TileEntity te: teMap.values())
 					{
-						if (te.getType() == ModTileEntities.TRADE_STATION)
+						if (te.getType() == ModTileEntities.TRADE_STATION.get())
 						{
 							BlockPos pos = te.getPos();
 							BlockState state = entity.getEntityWorld().getBlockState(pos);
@@ -121,7 +121,7 @@ public class IllusionerAmbush {
 	{
 		if (event.getName().equals(EntityType.ILLUSIONER.getLootTable()))
 		{
-			LootPool pool = LootPool.builder().addEntry(ItemLootEntry.builder(ModItems.TOTEM_OF_DECOY).acceptFunction(SetCount.builder(new RandomValueRange(2, 3)))).name("totem_of_decoy").build();
+			LootPool pool = LootPool.builder().addEntry(ItemLootEntry.builder(ModItems.TOTEM_OF_DECOY.get()).acceptFunction(SetCount.builder(new RandomValueRange(2, 3)))).name("totem_of_decoy").build();
 			event.getTable().addPool(pool);
 		}
 	}

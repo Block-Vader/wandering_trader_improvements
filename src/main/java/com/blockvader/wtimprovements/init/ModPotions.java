@@ -9,24 +9,28 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 @EventBusSubscriber(modid = WTImprovements.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
-public class InitPotionTypes {
+public class ModPotions {
+	
+	public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(ForgeRegistries.POTION_TYPES, WTImprovements.MOD_ID);
 
 	//Vanilla
-	public static Potion MIGHTY_NIGHT_VISION;
-	public static Potion MIGHTY_INVISIBILITY;
-	public static Potion MIGHTY_LEAPING;
-	public static Potion MIGHTY_FIRE_RESISTANCE;
-	public static Potion MIGHTY_SWIFTNESS;
-	public static Potion MIGHTY_TURTLE_MASTER;
-	public static Potion MIGHTY_WATER_BREATHING;
-	public static Potion MIGHTY_HEALING;
-	public static Potion MIGHTY_REGENERATION;
-	public static Potion MIGHTY_STRENGTH;
-	public static Potion MIGHTY_SLOW_FALLING;
+	public static final RegistryObject<Potion> MIGHTY_NIGHT_VISION = POTIONS.register("mighty_night_vision", () -> new Potion(new EffectInstance(Effects.NIGHT_VISION, 24000)));
+	public static final RegistryObject<Potion> MIGHTY_INVISIBILITY = POTIONS.register("mighty_invisibility", () -> new Potion(new EffectInstance(Effects.INVISIBILITY, 24000)));
+	public static final RegistryObject<Potion> MIGHTY_LEAPING = POTIONS.register("mighty_leaping", () -> new Potion(new EffectInstance(Effects.JUMP_BOOST, 4800, 1)));
+	public static final RegistryObject<Potion> MIGHTY_FIRE_RESISTANCE = POTIONS.register("mighty_fire_resistance", () -> new Potion(new EffectInstance(Effects.FIRE_RESISTANCE, 24000)));
+	public static final RegistryObject<Potion> MIGHTY_SWIFTNESS = POTIONS.register("mighty_swiftness", () -> new Potion(new EffectInstance(Effects.SPEED, 4800, 1)));
+	public static final RegistryObject<Potion> MIGHTY_TURTLE_MASTER = POTIONS.register("mighty_turtle_master", () -> new Potion(new EffectInstance(Effects.SLOWNESS, 1060, 5), new EffectInstance(Effects.RESISTANCE, 1060, 3)));
+	public static final RegistryObject<Potion> MIGHTY_WATER_BREATHING = POTIONS.register("mighty_water_breathing", () -> new Potion(new EffectInstance(Effects.WATER_BREATHING, 24000)));
+	public static final RegistryObject<Potion> MIGHTY_HEALING = POTIONS.register("mighty_healing", () -> new Potion(new EffectInstance(Effects.INSTANT_HEALTH, 1, 2)));
+	public static final RegistryObject<Potion> MIGHTY_REGENERATION = POTIONS.register("mighty_regeneration", () -> new Potion(new EffectInstance(Effects.REGENERATION, 1200, 1)));
+	public static final RegistryObject<Potion> MIGHTY_STRENGTH = POTIONS.register("mighty_strength", () -> new Potion(new EffectInstance(Effects.STRENGTH, 4800, 1)));
+	public static final RegistryObject<Potion> MIGHTY_SLOW_FALLING = POTIONS.register("mighty_slow_falling", () -> new Potion(new EffectInstance(Effects.SLOW_FALLING, 12000)));
 	//Quark
 	public static Potion MIGHTY_FORTITUDE;
 	public static Potion MIGHTY_DANFER_SIGHT;
@@ -52,28 +56,6 @@ public class InitPotionTypes {
 	@SubscribeEvent
 	public static void onPotionTypeRegistry(RegistryEvent.Register<Potion> event)
 	{
-		MIGHTY_NIGHT_VISION = new Potion("mighty_night_vision", new EffectInstance(Effects.NIGHT_VISION, 24000)).setRegistryName("mighty_night_vision");
-		event.getRegistry().register(MIGHTY_NIGHT_VISION);
-		MIGHTY_INVISIBILITY = new Potion("mighty_invisibility", new EffectInstance(Effects.INVISIBILITY, 24000)).setRegistryName("mighty_invisibility");
-		event.getRegistry().register(MIGHTY_INVISIBILITY);
-		MIGHTY_LEAPING = new Potion("mighty_leaping", new EffectInstance(Effects.JUMP_BOOST, 4800, 1)).setRegistryName("mighty_leaping");
-		event.getRegistry().register(MIGHTY_LEAPING);
-		MIGHTY_FIRE_RESISTANCE = new Potion("mighty_fire_resistance", new EffectInstance(Effects.FIRE_RESISTANCE, 24000)).setRegistryName("mighty_fire_resistance");
-		event.getRegistry().register(MIGHTY_FIRE_RESISTANCE);
-		MIGHTY_SWIFTNESS = new Potion("mighty_swiftness", new EffectInstance(Effects.SPEED, 4800, 1)).setRegistryName("mighty_swiftness");
-		event.getRegistry().register(MIGHTY_SWIFTNESS);
-		MIGHTY_TURTLE_MASTER = new Potion("mighty_turtle_master", new EffectInstance(Effects.SLOWNESS, 1060, 5), new EffectInstance(Effects.RESISTANCE, 1060, 3)).setRegistryName("mighty_turtle_master");
-		event.getRegistry().register(MIGHTY_TURTLE_MASTER);
-		MIGHTY_WATER_BREATHING = new Potion("mighty_water_breathing", new EffectInstance(Effects.INVISIBILITY, 24000)).setRegistryName("mighty_water_breathing");
-		event.getRegistry().register(MIGHTY_WATER_BREATHING);
-		MIGHTY_HEALING = new Potion("mighty_healing", new EffectInstance(Effects.INSTANT_HEALTH, 1, 2)).setRegistryName("mighty_healing");
-		event.getRegistry().register(MIGHTY_HEALING);
-		MIGHTY_REGENERATION = new Potion("mighty_regeneration", new EffectInstance(Effects.REGENERATION, 1200, 1)).setRegistryName("mighty_regeneration");
-		event.getRegistry().register(MIGHTY_REGENERATION);
-		MIGHTY_STRENGTH = new Potion("mighty_strength", new EffectInstance(Effects.STRENGTH, 4800, 1)).setRegistryName("mighty_strength");
-		event.getRegistry().register(MIGHTY_STRENGTH);
-		MIGHTY_SLOW_FALLING = new Potion("mighty_slow_falling", new EffectInstance(Effects.SLOW_FALLING, 12000)).setRegistryName("mighty_slow_falling");
-		event.getRegistry().register(MIGHTY_SLOW_FALLING);
 		if (ModList.get().isLoaded(WTImprovements.QUARK_ID))
 		{
 			ResourceLocation dangerSight = new ResourceLocation(WTImprovements.QUARK_ID, "danger_sight");

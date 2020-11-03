@@ -1,6 +1,6 @@
 package com.blockvader.wtimprovements;
 
-import com.blockvader.wtimprovements.init.InitTileEntities;
+import com.blockvader.wtimprovements.init.ModTileEntities;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -14,7 +14,7 @@ public class TradeStationTileEntity extends TileEntity{
 	
 	public TradeStationTileEntity()
 	{
-		this(InitTileEntities.TRADE_STATION);
+		this(ModTileEntities.TRADE_STATION.get());
 	}
 
 }

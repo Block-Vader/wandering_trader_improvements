@@ -21,6 +21,7 @@ import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.spawner.WorldEntitySpawner;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -32,6 +33,7 @@ public class WanderingTraderVillageSpawner {
 	@SubscribeEvent
 	public void tick(WorldTickEvent event)
 	{
+		if (event.phase == TickEvent.Phase.END) return;
 		if (event.world.getGameRules().getBoolean(GameRules.field_230128_E_) && event.world.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) && event.world instanceof ServerWorld)
 		{
 			this.world = (ServerWorld) event.world;

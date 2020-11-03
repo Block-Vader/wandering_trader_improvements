@@ -1,18 +1,10 @@
 modLoader="javafml"
-<<<<<<< HEAD
 loaderVersion="[34,)"
 license="MIT License"
 issueTrackerURL="https://github.com/Block-Vader/wandering_trader_improvements/issues"
 [[mods]]
 modId="wt_improvements"
-version="1.16.3-1.0.1.0"
-=======
-loaderVersion="[31,)"
-issueTrackerURL="https://github.com/Block-Vader/wandering_trader_improvements/issues"
-[[mods]]
-modId="wt_improvements"
-version="1.15.2-1.0.1.0"
->>>>>>> b480f361bc504d31bc46b4a85d90e1801a0c1f78
+version="1.16.3-1.1.0.0"
 displayName="Wandering Trader Improvements"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/wandering-trader-improvements"
 logoFile="logo.png"
@@ -24,24 +16,9 @@ This mod gives the Wandering Trader significantly better trades. It also makes h
 But be careful, when you try to trade with him, you may encounter a nasty surprise.
 '''
 
-[[dependencies.examplemod]]
+[[dependencies.wt_improvements]]
     modId="forge"
     mandatory=true
-<<<<<<< HEAD
     versionRange="[34,)"
-=======
-    versionRange="[31,)"
->>>>>>> b480f361bc504d31bc46b4a85d90e1801a0c1f78
-    ordering="NONE"
-    side="BOTH"
-
-[[dependencies.examplemod]]
-    modId="minecraft"
-    mandatory=true
-<<<<<<< HEAD
-    versionRange="[1.16.3]"
-=======
-    versionRange="[1.15.2]"
->>>>>>> b480f361bc504d31bc46b4a85d90e1801a0c1f78
     ordering="NONE"
     side="BOTH"

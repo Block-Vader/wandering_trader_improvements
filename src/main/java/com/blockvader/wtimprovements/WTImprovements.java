@@ -1,6 +1,12 @@
 package com.blockvader.wtimprovements;
 
 import com.blockvader.wtimprovements.client.ClientProxy;
+import com.blockvader.wtimprovements.init.ModBlocks;
+import com.blockvader.wtimprovements.init.ModEntities;
+import com.blockvader.wtimprovements.init.ModItems;
+import com.blockvader.wtimprovements.init.ModPotions;
+import com.blockvader.wtimprovements.init.ModSoundEvents;
+import com.blockvader.wtimprovements.init.ModTileEntities;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -22,6 +28,13 @@ public class WTImprovements
         
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new WanderingTraderVillageSpawner());
+        
+        ModBlocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ModEntities.ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ModItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ModPotions.POTIONS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ModSoundEvents.SOUND_EVENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ModTileEntities.TILE_ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     private void doClientStuff(final FMLClientSetupEvent event)

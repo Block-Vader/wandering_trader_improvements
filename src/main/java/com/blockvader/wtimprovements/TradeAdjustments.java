@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.blockvader.wtimprovements.init.InitPotionTypes;
+import com.blockvader.wtimprovements.init.ModPotions;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -152,27 +152,27 @@ public class TradeAdjustments {
 			List<Potion> mightyPotions = new ArrayList<Potion>();
 			if (tier == 0)
 			{
-				mightyPotions.add(InitPotionTypes.MIGHTY_FIRE_RESISTANCE);
-				mightyPotions.add(InitPotionTypes.MIGHTY_INVISIBILITY);
-				mightyPotions.add(InitPotionTypes.MIGHTY_NIGHT_VISION);
-				mightyPotions.add(InitPotionTypes.MIGHTY_SLOW_FALLING);
-				mightyPotions.add(InitPotionTypes.MIGHTY_WATER_BREATHING);
-				if (InitPotionTypes.dangerSightCreated) mightyPotions.add(InitPotionTypes.MIGHTY_DANFER_SIGHT);
+				mightyPotions.add(ModPotions.MIGHTY_FIRE_RESISTANCE.get());
+				mightyPotions.add(ModPotions.MIGHTY_INVISIBILITY.get());
+				mightyPotions.add(ModPotions.MIGHTY_NIGHT_VISION.get());
+				mightyPotions.add(ModPotions.MIGHTY_SLOW_FALLING.get());
+				mightyPotions.add(ModPotions.MIGHTY_WATER_BREATHING.get());
+				if (ModPotions.dangerSightCreated) mightyPotions.add(ModPotions.MIGHTY_DANFER_SIGHT);
 			}
 			else {
-				mightyPotions.add(InitPotionTypes.MIGHTY_HEALING);
-				mightyPotions.add(InitPotionTypes.MIGHTY_LEAPING);
-				mightyPotions.add(InitPotionTypes.MIGHTY_REGENERATION);
-				mightyPotions.add(InitPotionTypes.MIGHTY_STRENGTH);
-				mightyPotions.add(InitPotionTypes.MIGHTY_SWIFTNESS);
-				mightyPotions.add(InitPotionTypes.MIGHTY_TURTLE_MASTER);
-				if (InitPotionTypes.fortitudeCreated) mightyPotions.add(InitPotionTypes.MIGHTY_FORTITUDE);
-				if (InitPotionTypes.stabilityCreated) mightyPotions.add(InitPotionTypes.MIGHTY_STABILITY);
-				if (InitPotionTypes.reliefCreated) mightyPotions.add(InitPotionTypes.MIGHTY_RELIEF);
-				if (InitPotionTypes.repellenceCreated) mightyPotions.add(InitPotionTypes.MIGHTY_REPELLENCE);
-				if (InitPotionTypes.vibingCreated) mightyPotions.add(InitPotionTypes.MIGHTY_VIBING);
-				if (InitPotionTypes.restfulnessCreated) mightyPotions.add(InitPotionTypes.MIGHTY_RESTFULNESS);
-				if (InitPotionTypes.luckCreated) mightyPotions.add(InitPotionTypes.MIGHTY_LUCK);
+				mightyPotions.add(ModPotions.MIGHTY_HEALING.get());
+				mightyPotions.add(ModPotions.MIGHTY_LEAPING.get());
+				mightyPotions.add(ModPotions.MIGHTY_REGENERATION.get());
+				mightyPotions.add(ModPotions.MIGHTY_STRENGTH.get());
+				mightyPotions.add(ModPotions.MIGHTY_SWIFTNESS.get());
+				mightyPotions.add(ModPotions.MIGHTY_TURTLE_MASTER.get());
+				if (ModPotions.fortitudeCreated) mightyPotions.add(ModPotions.MIGHTY_FORTITUDE);
+				if (ModPotions.stabilityCreated) mightyPotions.add(ModPotions.MIGHTY_STABILITY);
+				if (ModPotions.reliefCreated) mightyPotions.add(ModPotions.MIGHTY_RELIEF);
+				if (ModPotions.repellenceCreated) mightyPotions.add(ModPotions.MIGHTY_REPELLENCE);
+				if (ModPotions.vibingCreated) mightyPotions.add(ModPotions.MIGHTY_VIBING);
+				if (ModPotions.restfulnessCreated) mightyPotions.add(ModPotions.MIGHTY_RESTFULNESS);
+				if (ModPotions.luckCreated) mightyPotions.add(ModPotions.MIGHTY_LUCK);
 			}
 			ItemStack stack = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), mightyPotions.get(rand.nextInt(mightyPotions.size())));
 			
@@ -332,25 +332,25 @@ public class TradeAdjustments {
 	private static ItemStack getMightyPotion(Random rand)
 	{
 		List<Potion> mightyPotions = new ArrayList<Potion>();
-		mightyPotions.add(InitPotionTypes.MIGHTY_FIRE_RESISTANCE);
-		mightyPotions.add(InitPotionTypes.MIGHTY_INVISIBILITY);
-		mightyPotions.add(InitPotionTypes.MIGHTY_NIGHT_VISION);
-		mightyPotions.add(InitPotionTypes.MIGHTY_SLOW_FALLING);
-		mightyPotions.add(InitPotionTypes.MIGHTY_WATER_BREATHING);
-		if (InitPotionTypes.dangerSightCreated) mightyPotions.add(InitPotionTypes.MIGHTY_DANFER_SIGHT);
-		mightyPotions.add(InitPotionTypes.MIGHTY_HEALING);
-		mightyPotions.add(InitPotionTypes.MIGHTY_LEAPING);
-		mightyPotions.add(InitPotionTypes.MIGHTY_REGENERATION);
-		mightyPotions.add(InitPotionTypes.MIGHTY_STRENGTH);
-		mightyPotions.add(InitPotionTypes.MIGHTY_SWIFTNESS);
-		mightyPotions.add(InitPotionTypes.MIGHTY_TURTLE_MASTER);
-		if (InitPotionTypes.fortitudeCreated) mightyPotions.add(InitPotionTypes.MIGHTY_FORTITUDE);
-		if (InitPotionTypes.stabilityCreated) mightyPotions.add(InitPotionTypes.MIGHTY_STABILITY);
-		if (InitPotionTypes.reliefCreated) mightyPotions.add(InitPotionTypes.MIGHTY_RELIEF);
-		if (InitPotionTypes.repellenceCreated) mightyPotions.add(InitPotionTypes.MIGHTY_REPELLENCE);
-		if (InitPotionTypes.vibingCreated) mightyPotions.add(InitPotionTypes.MIGHTY_VIBING);
-		if (InitPotionTypes.restfulnessCreated) mightyPotions.add(InitPotionTypes.MIGHTY_RESTFULNESS);
-		if (InitPotionTypes.luckCreated) mightyPotions.add(InitPotionTypes.MIGHTY_LUCK);
+		mightyPotions.add(ModPotions.MIGHTY_FIRE_RESISTANCE.get());
+		mightyPotions.add(ModPotions.MIGHTY_INVISIBILITY.get());
+		mightyPotions.add(ModPotions.MIGHTY_NIGHT_VISION.get());
+		mightyPotions.add(ModPotions.MIGHTY_SLOW_FALLING.get());
+		mightyPotions.add(ModPotions.MIGHTY_WATER_BREATHING.get());
+		if (ModPotions.dangerSightCreated) mightyPotions.add(ModPotions.MIGHTY_DANFER_SIGHT);
+		mightyPotions.add(ModPotions.MIGHTY_HEALING.get());
+		mightyPotions.add(ModPotions.MIGHTY_LEAPING.get());
+		mightyPotions.add(ModPotions.MIGHTY_REGENERATION.get());
+		mightyPotions.add(ModPotions.MIGHTY_STRENGTH.get());
+		mightyPotions.add(ModPotions.MIGHTY_SWIFTNESS.get());
+		mightyPotions.add(ModPotions.MIGHTY_TURTLE_MASTER.get());
+		if (ModPotions.fortitudeCreated) mightyPotions.add(ModPotions.MIGHTY_FORTITUDE);
+		if (ModPotions.stabilityCreated) mightyPotions.add(ModPotions.MIGHTY_STABILITY);
+		if (ModPotions.reliefCreated) mightyPotions.add(ModPotions.MIGHTY_RELIEF);
+		if (ModPotions.repellenceCreated) mightyPotions.add(ModPotions.MIGHTY_REPELLENCE);
+		if (ModPotions.vibingCreated) mightyPotions.add(ModPotions.MIGHTY_VIBING);
+		if (ModPotions.restfulnessCreated) mightyPotions.add(ModPotions.MIGHTY_RESTFULNESS);
+		if (ModPotions.luckCreated) mightyPotions.add(ModPotions.MIGHTY_LUCK);
 		ItemStack stack = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), mightyPotions.get(rand.nextInt(mightyPotions.size())));
 		
 		return stack;
