@@ -1,6 +1,8 @@
 {
 	"entity.wt_improvements.decoy":"Приманка",
 	"item.wt_improvements.totem_of_decoy":"Тотем приманки",
+	"block.wt_improvements.trade_station":"Торговая лавка",
+	"item.wt_improvements.trade_station":"Торговая лавка",
 	"item.minecraft.potion.effect.mighty_night_vision": "Сильное зелье ночного зрения",
 	"item.minecraft.potion.effect.mighty_invisibility": "Сильное зелье невидимости",
 	"item.minecraft.potion.effect.mighty_leaping": "Сильное зелье прыгучести",
@@ -76,5 +78,6 @@
 	"item.minecraft.tipped_arrow.effect.mighty_restfulness": "Сильная стрела бодрости",
 	"item.minecraft.tipped_arrow.effect.mighty_repellence": "Сильная стрела коррозионосности",
 	"item.minecraft.tipped_arrow.effect.mighty_vibing": "Сильная стрела аураносности",
-	"item.minecraft.tipped_arrow.effect.mighty_luck": "Сильная стрела удачи"
+	"item.minecraft.tipped_arrow.effect.mighty_luck": "Сильная стрела удачи",
+	"subtitles.wt_improvements.block.trade_station.ding": "Колокол торговой лавки звенит"
 }
