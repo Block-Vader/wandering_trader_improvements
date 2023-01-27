@@ -54,14 +54,12 @@ public class DecoyRenderer extends LivingRenderer<DecoyEntity, DecoyModel<DecoyE
 
 	private void setModelVisibilities(DecoyEntity decoy)
 	{
-		DecoyModel<DecoyEntity> decoyModel = this.getEntityModel();
-		ItemStack itemstack = decoy.getHeldItemMainhand();
-		ItemStack itemstack1 = decoy.getHeldItemOffhand();
-		decoyModel.setVisible(true);
-		decoyModel.isSneak = false;
-		BipedModel.ArmPose bipedmodel$armpose = this.func_217766_a(decoy, itemstack, itemstack1, Hand.MAIN_HAND);
-		BipedModel.ArmPose bipedmodel$armpose1 = this.func_217766_a(decoy, itemstack, itemstack1, Hand.OFF_HAND);
-		if (decoy.getPrimaryHand() == HandSide.RIGHT)
+		DecoyModel<DecoyEntity> decoyModel = this.getModel();
+		decoyModel.setAllVisible(true);
+		decoyModel.crouching = false;
+		BipedModel.ArmPose bipedmodel$armpose = DecoyRenderer.getArmPose(decoy, Hand.MAIN_HAND);
+		BipedModel.ArmPose bipedmodel$armpose1 = DecoyRenderer.getArmPose(decoy, Hand.OFF_HAND);
+		if (decoy.getMainArm() == HandSide.RIGHT)
 		{
 			decoyModel.rightArmPose = bipedmodel$armpose;
 			decoyModel.leftArmPose = bipedmodel$armpose1;
@@ -72,36 +70,41 @@ public class DecoyRenderer extends LivingRenderer<DecoyEntity, DecoyModel<DecoyE
 		}
 	}
 
-	private BipedModel.ArmPose func_217766_a(DecoyEntity p_217766_1_, ItemStack p_217766_2_, ItemStack p_217766_3_, Hand p_217766_4_)
-	{
-		BipedModel.ArmPose bipedmodel$armpose = BipedModel.ArmPose.EMPTY;
-		ItemStack itemstack = p_217766_4_ == Hand.MAIN_HAND ? p_217766_2_ : p_217766_3_;
-		if (!itemstack.isEmpty())
-		{
-			bipedmodel$armpose = BipedModel.ArmPose.ITEM;
-			boolean flag3 = p_217766_2_.getItem() == Items.CROSSBOW;
-			boolean flag = CrossbowItem.isCharged(p_217766_2_);
-			boolean flag1 = p_217766_3_.getItem() == Items.CROSSBOW;
-			boolean flag2 = CrossbowItem.isCharged(p_217766_3_);
-			if (flag3 && flag)
-			{
-				bipedmodel$armpose = BipedModel.ArmPose.CROSSBOW_HOLD;
-			}
+	private static BipedModel.ArmPose getArmPose(DecoyEntity decoy, Hand hand) {
+	      ItemStack itemstack = decoy.getItemInHand(hand);
+	      if (itemstack.isEmpty()) {
+	         return BipedModel.ArmPose.EMPTY;
+	      } else {
+	         if (decoy.getUsedItemHand() == hand && decoy.getUseItemRemainingTicks() > 0) {
+	            UseAction useaction = itemstack.getUseAnimation();
+	            if (useaction == UseAction.BLOCK) {
+	               return BipedModel.ArmPose.BLOCK;
+	            }
 
-			if (flag1 && flag2 && p_217766_2_.getItem().getUseAction(p_217766_2_) == UseAction.NONE)
-			{
-				bipedmodel$armpose = BipedModel.ArmPose.CROSSBOW_HOLD;
-			}
-		}
+	            if (useaction == UseAction.BOW) {
+	               return BipedModel.ArmPose.BOW_AND_ARROW;
+	            }
 
-		return bipedmodel$armpose;
-	}
+	            if (useaction == UseAction.SPEAR) {
+	               return BipedModel.ArmPose.THROW_SPEAR;
+	            }
+
+	            if (useaction == UseAction.CROSSBOW && hand == decoy.getUsedItemHand()) {
+	               return BipedModel.ArmPose.CROSSBOW_CHARGE;
+	            }
+	         } else if (!decoy.swinging && itemstack.getItem() == Items.CROSSBOW && CrossbowItem.isCharged(itemstack)) {
+	            return BipedModel.ArmPose.CROSSBOW_HOLD;
+	         }
+
+	         return BipedModel.ArmPose.ITEM;
+	      }
+	   }
 
 	@Override
-	public ResourceLocation getEntityTexture(DecoyEntity entity)
+	public ResourceLocation getTextureLocation(DecoyEntity entity)
 	{
 		NetworkPlayerInfo info = Minecraft.getInstance().getConnection().getPlayerInfo(entity.getFakeId());
-		return info == null ? DefaultPlayerSkin.getDefaultSkin(entity.getFakeId()) : info.getLocationSkin();
+		return info == null ? DefaultPlayerSkin.getDefaultSkin(entity.getFakeId()) : info.getSkinLocation();
 	}
 	
 	protected void preRenderCallback(DecoyEntity entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime)
@@ -111,65 +114,60 @@ public class DecoyRenderer extends LivingRenderer<DecoyEntity, DecoyModel<DecoyE
 
 	public void renderRightArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, DecoyEntity entityIn)
 	{
-		this.renderItem(matrixStackIn, bufferIn, combinedLightIn, entityIn, (this.entityModel).bipedRightArm, (this.entityModel).bipedRightArmwear);
+		this.renderItem(matrixStackIn, bufferIn, combinedLightIn, entityIn, (this.model).rightArm, (this.model).bipedRightArmwear);
 	}
 
 	public void renderLeftArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, DecoyEntity entityIn)
 	{
-		this.renderItem(matrixStackIn, bufferIn, combinedLightIn, entityIn, (this.entityModel).bipedLeftArm, (this.entityModel).bipedLeftArmwear);
+		this.renderItem(matrixStackIn, bufferIn, combinedLightIn, entityIn, (this.model).leftArm, (this.model).bipedLeftArmwear);
 	}
 
 	private void renderItem(MatrixStack p_229145_1_, IRenderTypeBuffer p_229145_2_, int p_229145_3_, DecoyEntity decoy, ModelRenderer rendererArmIn, ModelRenderer rendererArmwearIn)
 	{
-		DecoyModel<DecoyEntity> playermodel = this.getEntityModel();
+		DecoyModel<DecoyEntity> playermodel = this.getModel();
 		this.setModelVisibilities(decoy);
-		playermodel.swingProgress = 0.0F;
-		playermodel.isSneak = false;
-		playermodel.swimAnimation = 0.0F;
-		playermodel.setRotationAngles(decoy, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-		rendererArmIn.rotateAngleX = 0.0F;
-		rendererArmIn.render(p_229145_1_, p_229145_2_.getBuffer(RenderType.getEntitySolid(this.getEntityTexture(decoy))), p_229145_3_,OverlayTexture.NO_OVERLAY);
-		rendererArmwearIn.rotateAngleX = 0.0F;
-		rendererArmwearIn.render(p_229145_1_, p_229145_2_.getBuffer(RenderType.getEntityTranslucent(this.getEntityTexture(decoy))), p_229145_3_, OverlayTexture.NO_OVERLAY);
+		playermodel.attackTime = 0.0F;
+		playermodel.crouching = false;
+		playermodel.swimAmount = 0.0F;
+		playermodel.setupAnim(decoy, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+		rendererArmIn.xRot = 0.0F;
+		rendererArmIn.render(p_229145_1_, p_229145_2_.getBuffer(RenderType.entitySolid(this.getTextureLocation(decoy))), p_229145_3_,OverlayTexture.NO_OVERLAY);
+		rendererArmwearIn.xRot = 0.0F;
+		rendererArmwearIn.render(p_229145_1_, p_229145_2_.getBuffer(RenderType.entityTranslucent(this.getTextureLocation(decoy))), p_229145_3_, OverlayTexture.NO_OVERLAY);
 	}
 
 	@Override
-	protected void applyRotations(DecoyEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks)
-	{
-		float f = entityLiving.getSwimAnimation(partialTicks);
-		if (entityLiving.isElytraFlying())
-		{
-			super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
-			float f1 = (float)entityLiving.getTicksElytraFlying() + partialTicks;
+	protected void setupRotations(DecoyEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
+		float f = entityLiving.getSwimAmount(partialTicks);
+		if (entityLiving.isFallFlying()) {
+			super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
+			float f1 = (float)entityLiving.getFallFlyingTicks() + partialTicks;
 			float f2 = MathHelper.clamp(f1 * f1 / 100.0F, 0.0F, 1.0F);
-			if (!entityLiving.isSpinAttacking())
-			{
-				matrixStackIn.rotate(Vector3f.XP.rotationDegrees(f2 * (-90.0F - entityLiving.rotationPitch)));
+			if (!entityLiving.isAutoSpinAttack()) {
+				matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(f2 * (-90.0F - entityLiving.xRot)));
 			}
 	
-			Vector3d vector3d = entityLiving.getLook(partialTicks);
-			Vector3d vector3d1 = entityLiving.getMotion();
-			double d0 = Entity.horizontalMag(vector3d1);
-			double d1 = Entity.horizontalMag(vector3d);
-			if (d0 > 0.0D && d1 > 0.0D)
-			{
+			Vector3d vector3d = entityLiving.getViewVector(partialTicks);
+			Vector3d vector3d1 = entityLiving.getDeltaMovement();
+			double d0 = Entity.getHorizontalDistanceSqr(vector3d1);
+			double d1 = Entity.getHorizontalDistanceSqr(vector3d);
+			if (d0 > 0.0D && d1 > 0.0D) {
 				double d2 = (vector3d1.x * vector3d.x + vector3d1.z * vector3d.z) / Math.sqrt(d0 * d1);
 				double d3 = vector3d1.x * vector3d.z - vector3d1.z * vector3d.x;
-				matrixStackIn.rotate(Vector3f.YP.rotation((float)(Math.signum(d3) * Math.acos(d2))));
+				matrixStackIn.mulPose(Vector3f.YP.rotation((float)(Math.signum(d3) * Math.acos(d2))));
 			}
-		} else if (f > 0.0F)
-		{
-			super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
-			float f3 = entityLiving.isInWater() ? -90.0F - entityLiving.rotationPitch : -90.0F;
+		}
+		else if (f > 0.0F) {
+			super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
+			float f3 = entityLiving.isInWater() ? -90.0F - entityLiving.xRot : -90.0F;
 			float f4 = MathHelper.lerp(f, 0.0F, f3);
-			matrixStackIn.rotate(Vector3f.XP.rotationDegrees(f4));
-			if (entityLiving.isActualySwimming())
-			{
+			matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(f4));
+			if (entityLiving.isVisuallySwimming()) {
 				matrixStackIn.translate(0.0D, -1.0D, (double)0.3F);
 			}
-		} else
-		{
-			super.applyRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
+		}
+		else {
+			super.setupRotations(entityLiving, matrixStackIn, ageInTicks, rotationYaw, partialTicks);
 		}
 	}
 }

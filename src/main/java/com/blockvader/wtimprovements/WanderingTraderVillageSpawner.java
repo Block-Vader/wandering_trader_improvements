@@ -31,26 +31,24 @@ public class WanderingTraderVillageSpawner {
 	private Random random;
 	
 	@SubscribeEvent
-	public void tick(WorldTickEvent event)
-	{
+	public void tick(WorldTickEvent event) {
 		if (event.phase == TickEvent.Phase.END) return;
-		if (event.world.getGameRules().getBoolean(GameRules.field_230128_E_) && event.world.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) && event.world instanceof ServerWorld)
-		{
+		if (event.world.getGameRules().getBoolean(GameRules.RULE_DO_TRADER_SPAWNING) && event.world.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && event.world instanceof ServerWorld) {
 			this.world = (ServerWorld) event.world;
 			this.random = this.world.getRandom();
-			int spawnDelay = TraderSpawnSavedData.get(this.world).getSpawnDelay();
+			TraderSpawnSavedData data = this.world.getDataStorage().computeIfAbsent(TraderSpawnSavedData::new, WTImprovements.MOD_ID + ":trader_spawn_data");
+			int spawnDelay = data.getSpawnDelay();
 			++spawnDelay;
-			TraderSpawnSavedData.get(this.world).setSpawnDelay(spawnDelay);
-			if (world.getDayTime() % 24000 == 450)
-			{
+			data.setSpawnDelay(spawnDelay);
+			if (world.getDayTime() % 24000 == 450) {
 				int daysSinceSpawned = spawnDelay/24000;
 				if (random.nextInt(8) < daysSinceSpawned)
 				{
 					PlayerEntity playerentity = this.world.getRandomPlayer();
 					if (playerentity != null)
 					{
-						BlockPos blockpos = playerentity.func_233580_cy_();
-						PointOfInterestManager pointofinterestmanager = this.world.getPointOfInterestManager();
+						BlockPos blockpos = playerentity.blockPosition();
+						PointOfInterestManager pointofinterestmanager = this.world.getPoiManager();
 						Optional<BlockPos> optional = pointofinterestmanager.find(PointOfInterestType.MEETING.getPredicate(), (p_221241_0_) -> {
 							return true;
 						}, blockpos, 48, PointOfInterestManager.Status.ANY);
@@ -58,21 +56,17 @@ public class WanderingTraderVillageSpawner {
 						{
 							BlockPos blockpos1 = optional.get();
 							BlockPos blockpos2 = this.getSpawnPos(blockpos1, 48);
-							if (blockpos2 != null && this.isSpawnPosEmpty(blockpos2))
-							{
-								if (this.world.func_242406_i(blockpos2).equals(Optional.of(Biomes.THE_VOID))) return;
+							if (blockpos2 != null && this.isSpawnPosEmpty(blockpos2)) {
+								if (this.world.getBiome(blockpos2).equals(Optional.of(Biomes.THE_VOID))) return;
 								WanderingTraderEntity wanderingtraderentity = EntityType.WANDERING_TRADER.spawn(this.world, (CompoundNBT)null, (ITextComponent)null, (PlayerEntity)null, blockpos2, SpawnReason.EVENT, false, false);
-								if (wanderingtraderentity != null)
-								{
-									for(int j = 0; j < 2; ++j)
-									{
+								if (wanderingtraderentity != null) {
+									for(int j = 0; j < 2; ++j) {
 										this.spawnLlamas(wanderingtraderentity, 4);
 									}
-									//this.world.getWorldInfo().func_230394_a_(wanderingtraderentity.getUniqueID());
 									wanderingtraderentity.setDespawnDelay(11600);
 									wanderingtraderentity.setWanderTarget(blockpos1);
-									wanderingtraderentity.setHomePosAndDistance(blockpos1, 16);
-									TraderSpawnSavedData.get(this.world).setSpawnDelay(0);
+									wanderingtraderentity.restrictTo(blockpos1, 16);
+									data.setSpawnDelay(0);
 								}
 							}
 						}
@@ -83,17 +77,14 @@ public class WanderingTraderVillageSpawner {
 	}
 	
 	@Nullable
-	private BlockPos getSpawnPos(BlockPos pos, int radius)
-	{
+	private BlockPos getSpawnPos(BlockPos pos, int radius) {
 		BlockPos blockpos = null;
-		for(int i = 0; i < 10; ++i)
-		{
+		for(int i = 0; i < 10; ++i) {
 			int j = pos.getX() + this.random.nextInt(radius * 2) - radius;
 			int k = pos.getZ() + this.random.nextInt(radius * 2) - radius;
 			int l = this.world.getHeight(Heightmap.Type.WORLD_SURFACE, j, k);
 			BlockPos blockpos1 = new BlockPos(j, l, k);
-			if (WorldEntitySpawner.canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, this.world, blockpos1, EntityType.WANDERING_TRADER))
-			{
+			if (WorldEntitySpawner.isSpawnPositionOk(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, this.world, blockpos1, EntityType.WANDERING_TRADER)) {
 				blockpos = blockpos1;
 				break;
 			}
@@ -101,43 +92,34 @@ public class WanderingTraderVillageSpawner {
 		return blockpos;
 	}
 	
-	private boolean isSpawnPosEmpty(BlockPos pos)
-	{
-		for(BlockPos blockpos : BlockPos.getAllInBoxMutable(pos, pos.add(1, 2, 1)))
-		{
-			if (!this.world.getBlockState(blockpos).getCollisionShape(this.world, blockpos).isEmpty())
-			{
+	private boolean isSpawnPosEmpty(BlockPos pos) {
+		for(BlockPos blockpos : BlockPos.betweenClosed(pos, pos.offset(1, 2, 1))) {
+			if (!this.world.getBlockState(blockpos).getCollisionShape(this.world, blockpos).isEmpty()) {
 				return false;
 			}
 		}
 		return true;
 	}
 	
-	private void spawnLlamas(WanderingTraderEntity trader, int radius)
-	{
-		BlockPos blockpos = llamaSpawnPos(new BlockPos(trader.getPositionVec()), radius);
-		if (blockpos != null)
-		{
+	private void spawnLlamas(WanderingTraderEntity trader, int radius) {
+		BlockPos blockpos = llamaSpawnPos(new BlockPos(trader.position()), radius);
+		if (blockpos != null) {
 			TraderLlamaEntity traderllamaentity = EntityType.TRADER_LLAMA.spawn(world, (CompoundNBT)null, (ITextComponent)null, (PlayerEntity)null, blockpos, SpawnReason.EVENT, false, false);
-			if (traderllamaentity != null)
-			{
-				traderllamaentity.setLeashHolder(trader, true);
+			if (traderllamaentity != null) {
+				traderllamaentity.setLeashedTo(trader, true);
 			}
 		}
 	}
 	
 	@Nullable
-	private BlockPos llamaSpawnPos(BlockPos pos, int radius)
-	{
+	private BlockPos llamaSpawnPos(BlockPos pos, int radius) {
 		BlockPos blockpos = null;
-		for(int i = 0; i < 10; ++i)
-		{
+		for(int i = 0; i < 10; ++i) {
 			int j = pos.getX() + this.world.getRandom().nextInt(radius * 2) - radius;
 			int k = pos.getZ() + this.world.getRandom().nextInt(radius * 2) - radius;
 			int l = world.getHeight(Heightmap.Type.WORLD_SURFACE, j, k);
 			BlockPos blockpos1 = new BlockPos(j, l, k);
-			if (WorldEntitySpawner.canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, this.world, blockpos1, EntityType.WANDERING_TRADER))
-			{
+			if (WorldEntitySpawner.isSpawnPositionOk(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, this.world, blockpos1, EntityType.WANDERING_TRADER)) {
 				blockpos = blockpos1;
 				break;
 			}

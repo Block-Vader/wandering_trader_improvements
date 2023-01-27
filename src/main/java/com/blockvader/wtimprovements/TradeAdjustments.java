@@ -50,8 +50,7 @@ public class TradeAdjustments {
 		genericTrades.remove(6); //dandelion
 		genericTrades.remove(6); //poppy
 		genericTrades.remove(16); //wheat seeds
-		for (int i = 0; i < 16; i++)
-		{
+		for (int i = 0; i < 16; i++) {
 			genericTrades.remove(25); //all dyes
 		}
 		genericTrades.remove(30); //vines
@@ -79,8 +78,7 @@ public class TradeAdjustments {
 		rareTrades.add(new BeeNestTrade(3, 10, 1, 2));
 	}
 	
-	static class BeeNestTrade implements VillagerTrades.ITrade
-	{
+	static class BeeNestTrade implements VillagerTrades.ITrade {
 		private final int beeCount;
 		private final int price;
 		private final int maxUses;
@@ -99,36 +97,32 @@ public class TradeAdjustments {
 			this.priceMultiplier = priceMultiplier;
 		}
 		
-		private ItemStack createBeeNest(World worldIn)
-		{
+		private ItemStack createBeeNest(World worldIn) {
 			ItemStack stack = new ItemStack(Blocks.BEE_NEST);
 			CompoundNBT compound = new CompoundNBT();
 			ListNBT bees = new ListNBT();
-			for (int i = 0; i < this.beeCount; i++)
-			{
+			for (int i = 0; i < this.beeCount; i++) {
 				BeeEntity bee = EntityType.BEE.create(worldIn);
 				CompoundNBT entityData = new CompoundNBT();
-				bee.writeUnlessPassenger(entityData);
+				bee.save(compound);
 				CompoundNBT compound1 = new CompoundNBT();
 				compound1.put("EntityData", entityData);
-				compound1.putInt("MinOccupationTicks", 200 + bee.getRNG().nextInt(400));
+				compound1.putInt("MinOccupationTicks", 200 + bee.getRandom().nextInt(400));
 				bees.add(compound1);
 			}
 			compound.put("Bees", bees);
-            stack.setTagInfo("BlockEntityTag", compound);
+            stack.addTagElement("BlockEntityTag", compound);
 			return stack;
 		}
 
 		@Override
-		public MerchantOffer getOffer(Entity entity, Random p_221182_2_)
-		{
-			return new MerchantOffer(new ItemStack(Items.EMERALD, this.price), createBeeNest(entity.getEntityWorld()), this.maxUses, this.givenEXP, this.priceMultiplier);
+		public MerchantOffer getOffer(Entity entity, Random p_221182_2_) {
+			return new MerchantOffer(new ItemStack(Items.EMERALD, this.price), createBeeNest(entity.level), this.maxUses, this.givenEXP, this.priceMultiplier);
 		}
 		
 	}
 	
-	static class MightyPotionsTrade implements VillagerTrades.ITrade
-	{
+	static class MightyPotionsTrade implements VillagerTrades.ITrade {
 		private final int tier;
 		private final int price;
 		private final int maxUses;
@@ -147,11 +141,9 @@ public class TradeAdjustments {
 			this.priceMultiplier = priceMultiplier;
 		}
 		
-		private ItemStack createMightyPotion(Random rand)
-		{
+		private ItemStack createMightyPotion(Random rand) {
 			List<Potion> mightyPotions = new ArrayList<Potion>();
-			if (tier == 0)
-			{
+			if (tier == 0) {
 				mightyPotions.add(ModPotions.MIGHTY_FIRE_RESISTANCE.get());
 				mightyPotions.add(ModPotions.MIGHTY_INVISIBILITY.get());
 				mightyPotions.add(ModPotions.MIGHTY_NIGHT_VISION.get());
@@ -174,20 +166,18 @@ public class TradeAdjustments {
 				if (ModPotions.restfulnessCreated) mightyPotions.add(ModPotions.MIGHTY_RESTFULNESS);
 				if (ModPotions.luckCreated) mightyPotions.add(ModPotions.MIGHTY_LUCK);
 			}
-			ItemStack stack = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), mightyPotions.get(rand.nextInt(mightyPotions.size())));
+			ItemStack stack = PotionUtils.setPotion(new ItemStack(Items.POTION), mightyPotions.get(rand.nextInt(mightyPotions.size())));
 			
 			return stack;
 		}
 
 		@Override
-		public MerchantOffer getOffer(Entity p_221182_1_, Random rand)
-		{
+		public MerchantOffer getOffer(Entity p_221182_1_, Random rand) {
 			return new MerchantOffer(new ItemStack(Items.EMERALD, this.price), createMightyPotion(rand), this.maxUses, this.givenEXP, this.priceMultiplier);
 		}
 	}
 	
-	static class ItemsForEmeraldsTrade implements VillagerTrades.ITrade
-	{
+	static class ItemsForEmeraldsTrade implements VillagerTrades.ITrade {
 		private final ItemStack offer;
 		private final int price;
 		private final int count;
@@ -195,8 +185,7 @@ public class TradeAdjustments {
 		private final int givenEXP;
 		private final float priceMultiplier;
 		
-		public ItemsForEmeraldsTrade(Block offer, int price, int count, int maxUses, int givenEXP)
-		{
+		public ItemsForEmeraldsTrade(Block offer, int price, int count, int maxUses, int givenEXP) {
 			this(new ItemStack(offer), price, count, maxUses, givenEXP);
 		}
 		
@@ -212,8 +201,7 @@ public class TradeAdjustments {
 			this(offer, price, count, maxUses, givenEXP, 0.05F);
 		}
 		
-		public ItemsForEmeraldsTrade(ItemStack offer, int price, int count, int maxUses, int givenEXP, float priceMultiplier)
-		{
+		public ItemsForEmeraldsTrade(ItemStack offer, int price, int count, int maxUses, int givenEXP, float priceMultiplier) {
 			this.offer = offer;
 			this.price = price;
 			this.count = count;
@@ -247,23 +235,20 @@ public class TradeAdjustments {
 		private ItemStack createTreasureBook(Random rand)
 		{
 			List<Enchantment> treasureEnchs = new ArrayList<Enchantment>();
-			for (Enchantment ench: ForgeRegistries.ENCHANTMENTS.getValues())
-			{
-				if (ench.isTreasureEnchantment() && !ench.isCurse())
-				{
+			for (Enchantment ench: ForgeRegistries.ENCHANTMENTS.getValues()) {
+				if (ench.isTreasureOnly() && !ench.isCurse()) {
 					treasureEnchs.add(ench);
 				}
 			}
 			Enchantment treasure = treasureEnchs.get(rand.nextInt(treasureEnchs.size()));
 			ItemStack stack = new ItemStack(Items.ENCHANTED_BOOK);
-			stack.addEnchantment(treasure, treasure.getMaxLevel());
+			stack.enchant(treasure, treasure.getMaxLevel());
 			this.price = Math.min(15 * treasure.getMaxLevel(), 64);
 			return stack;
 		}
 
 		@Override
-		public MerchantOffer getOffer(Entity p_221182_1_, Random rand)
-		{
+		public MerchantOffer getOffer(Entity p_221182_1_, Random rand) {
 			ItemStack book = this.createTreasureBook(rand);
 			return new MerchantOffer(new ItemStack(Items.EMERALD, this.price), book, this.maxUses, this.givenEXP, this.priceMultiplier);
 		}
@@ -274,54 +259,40 @@ public class TradeAdjustments {
 	public static void onTraderSpawn(LivingSpawnEvent.SpecialSpawn event)
 	{
 		LivingEntity entity = event.getEntityLiving();
-		if (entity instanceof WanderingTraderEntity)
-		{
+		if (entity instanceof WanderingTraderEntity) {
 			boolean sellsFlower = false;
 			boolean sellsSapling = false;
 			boolean sellsSeed = false;
 			boolean sellsCoral = false;
 			WanderingTraderEntity trader = (WanderingTraderEntity) event.getEntityLiving();
-			Random rand = trader.getRNG();
-			for (int i = 0; i < 5; i++)
-			{
-				ItemStack stack = trader.getOffers().get(i).getSellingStack();
-				if (Block.getBlockFromItem(stack.getItem()) instanceof FlowerBlock)
-				{
-					if (sellsFlower)
-					{
+			Random rand = trader.getRandom();
+			for (int i = 0; i < 5; i++) {
+				ItemStack stack = trader.getOffers().get(i).getResult();
+				if (Block.byItem(stack.getItem()) instanceof FlowerBlock) {
+					if (sellsFlower) {
 						if (rand.nextBoolean()) trader.getOffers().set(i, new MerchantOffer(new ItemStack(Items.EMERALD, 12), getMightyPotion(rand), 2, 2, 0.05F));
-					} else
-					{
+					} else {
 						sellsFlower = true;
 					}
 				}
-				if (Block.getBlockFromItem(stack.getItem()) instanceof CoralBlock)
-				{
-					if (sellsCoral)
-					{
+				if (Block.byItem(stack.getItem()) instanceof CoralBlock) {
+					if (sellsCoral) {
 						if (rand.nextBoolean()) trader.getOffers().set(i, new MerchantOffer(new ItemStack(Items.EMERALD, 12), getMightyPotion(rand), 2, 2, 0.05F));
-					} else
-					{
+					} else {
 						sellsCoral = true;
 					}
 				}
-				if (Block.getBlockFromItem(stack.getItem()) instanceof SaplingBlock)
-				{
-					if (sellsSapling)
-					{
+				if (Block.byItem(stack.getItem()) instanceof SaplingBlock) {
+					if (sellsSapling) {
 						if (rand.nextBoolean()) trader.getOffers().set(i, new MerchantOffer(new ItemStack(Items.EMERALD, 12), getMightyPotion(rand), 2, 2, 0.05F));
-					} else
-					{
+					} else {
 						sellsSapling = true;
 					}
 				}
-				if (Block.getBlockFromItem(stack.getItem()) instanceof CropsBlock)
-				{
-					if (sellsSeed)
-					{
+				if (Block.byItem(stack.getItem()) instanceof CropsBlock) {
+					if (sellsSeed) {
 						if (rand.nextBoolean()) trader.getOffers().set(i, new MerchantOffer(new ItemStack(Items.EMERALD, 12), getMightyPotion(rand), 2, 2, 0.05F));
-					} else
-					{
+					} else {
 						sellsSeed = true;
 					}
 				}
@@ -329,8 +300,7 @@ public class TradeAdjustments {
 		}
 	}
 	
-	private static ItemStack getMightyPotion(Random rand)
-	{
+	private static ItemStack getMightyPotion(Random rand) {
 		List<Potion> mightyPotions = new ArrayList<Potion>();
 		mightyPotions.add(ModPotions.MIGHTY_FIRE_RESISTANCE.get());
 		mightyPotions.add(ModPotions.MIGHTY_INVISIBILITY.get());
@@ -351,7 +321,7 @@ public class TradeAdjustments {
 		if (ModPotions.vibingCreated) mightyPotions.add(ModPotions.MIGHTY_VIBING);
 		if (ModPotions.restfulnessCreated) mightyPotions.add(ModPotions.MIGHTY_RESTFULNESS);
 		if (ModPotions.luckCreated) mightyPotions.add(ModPotions.MIGHTY_LUCK);
-		ItemStack stack = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), mightyPotions.get(rand.nextInt(mightyPotions.size())));
+		ItemStack stack = PotionUtils.setPotion(new ItemStack(Items.POTION), mightyPotions.get(rand.nextInt(mightyPotions.size())));
 		
 		return stack;
 	}

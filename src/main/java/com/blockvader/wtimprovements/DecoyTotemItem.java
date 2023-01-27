@@ -14,49 +14,40 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
-public class DecoyTotemItem extends Item{
+public class DecoyTotemItem extends Item {
 
 	public DecoyTotemItem(Properties properties) {
 		super(properties);
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
-	{
-		ItemStack stack = playerIn.getHeldItem(handIn);
-		playerIn.addStat(Stats.ITEM_USED.get(this));
-		if (!playerIn.abilities.isCreativeMode)
-		{
+	public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+		ItemStack stack = playerIn.getItemInHand(handIn);
+		playerIn.awardStat(Stats.ITEM_USED.get(this));
+		if (!playerIn.isCreative()) {
 			stack.shrink(1);
-			playerIn.getCooldownTracker().setCooldown(this, 400);
+			playerIn.getCooldowns().addCooldown(this, 400);
 		}
-		if (!worldIn.isRemote)
-		{
+		if (!worldIn.isClientSide) {
 			DecoyEntity decoy = new DecoyEntity(ModEntities.DECOY.get(), worldIn);
 			decoy.copyPlayer(playerIn);
-			worldIn.addEntity(decoy);
-			playerIn.addPotionEffect(new EffectInstance(Effects.INVISIBILITY, 200, 0, false, false));
-			BlockPos pos = playerIn.func_233580_cy_();
-			for (Entity entity: worldIn.getEntitiesWithinAABBExcludingEntity(decoy, new AxisAlignedBB(pos.add(-40, -40, -40), pos.add(40, 40, 40))))
-			{
-				if (entity instanceof MobEntity)
-				{
-					if (((MobEntity)entity).getAttackTarget() == playerIn || ((MobEntity)entity).getRevengeTarget() == playerIn)
-					{
-						((MobEntity)entity).setRevengeTarget(decoy); //Tricks nearby mobs to attacking a decoy rather than the player
-						((MobEntity)entity).setAttackTarget(decoy);
+			worldIn.addFreshEntity(decoy);
+			playerIn.addEffect(new EffectInstance(Effects.INVISIBILITY, 200, 0, false, false));
+			Vector3d pos = playerIn.position();
+			for (Entity entity: worldIn.getEntities(decoy, new AxisAlignedBB(pos.add(-40, -40, -40), pos.add(40, 40, 40)))) {
+				if (entity instanceof MobEntity) {
+					if (((MobEntity)entity).getTarget() == playerIn) {
+						((MobEntity)entity).setTarget(decoy); //Tricks nearby mobs to attacking a decoy rather than the player
 					}
 				}
 			}
+		} else {
+			playerIn.playSound(SoundEvents.WANDERING_TRADER_DISAPPEARED, 1.0F, random.nextFloat() * 0.2F + 0.9F);
 		}
-		else
-		{
-			playerIn.playSound(SoundEvents.ENTITY_WANDERING_TRADER_DISAPPEARED, 1.0F, playerIn.getRNG().nextFloat() * 0.2F + 0.9F);
-		}
-		return ActionResult.resultSuccess(stack);
+		return ActionResult.success(stack);
 	}
 
 }

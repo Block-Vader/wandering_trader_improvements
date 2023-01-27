@@ -21,53 +21,47 @@ import net.minecraft.world.World;
 
 public class DecoyEntity extends LivingEntity {
 
-	private static final DataParameter<Boolean> IS_LEFTHANDED = EntityDataManager.createKey(MobEntity.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<Optional<UUID>> FAKE_ID = EntityDataManager.createKey(MobEntity.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	private static final DataParameter<Boolean> IS_LEFTHANDED = EntityDataManager.defineId(MobEntity.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Optional<UUID>> FAKE_ID = EntityDataManager.defineId(MobEntity.class, DataSerializers.OPTIONAL_UUID);
 	private final NonNullList<ItemStack> inventoryHands = NonNullList.withSize(2, ItemStack.EMPTY);
 	private final NonNullList<ItemStack> inventoryArmor = NonNullList.withSize(4, ItemStack.EMPTY);
 	private int age = 0;
 
 	public DecoyEntity(EntityType<? extends DecoyEntity> type, World worldIn) {
 		super(type, worldIn);
-		dataManager.set(FAKE_ID, Optional.of(UUID.fromString("6ab43178-89fd-4905-97f6-0f67d9d76fd9")));
+		entityData.set(FAKE_ID, Optional.of(UUID.fromString("6ab43178-89fd-4905-97f6-0f67d9d76fd9")));
 	}
 	
-	public void copyPlayer(PlayerEntity player)
-	{
-		this.setPrimaryHand(player.getPrimaryHand());
-		this.copyLocationAndAnglesFrom(player);
-		this.rotationYawHead = player.rotationYawHead;
-		this.setFakeId(player.getUniqueID());
+	public void copyPlayer(PlayerEntity player) {
+		this.setPrimaryHand(player.getMainArm());
+		this.copyPosition(player);
+		this.yHeadRot = player.yHeadRot;
+		this.setFakeId(player.getUUID());
 		this.setCustomName(player.getDisplayName());
-		for (EquipmentSlotType type : EquipmentSlotType.values())
-		{
-			ItemStack stack = player.getItemStackFromSlot(type);
-			if (!stack.isEmpty())
-			{
-				this.setItemStackToSlot(type, stack.copy());
+		for (EquipmentSlotType type : EquipmentSlotType.values()) {
+			ItemStack stack = player.getItemBySlot(type);
+			if (!stack.isEmpty()) {
+				this.setItemSlot(type, stack.copy());
 			}
 		}
 	}
 
 	@Override
-	public Iterable<ItemStack> getArmorInventoryList()
-	{
+	public Iterable<ItemStack> getArmorSlots() {
 		return inventoryArmor;
 	}
 	
 	@Override
-	protected void registerData()
+	protected void defineSynchedData()
 	{
-		super.registerData();
-		this.dataManager.register(IS_LEFTHANDED, false);
-		this.dataManager.register(FAKE_ID, null);
+		super.defineSynchedData();
+		this.entityData.define(IS_LEFTHANDED, false);
+		this.entityData.define(FAKE_ID, null);
 	}
 
 	@Override
-	public ItemStack getItemStackFromSlot(EquipmentSlotType slotIn)
-	{
-		switch(slotIn.getSlotType())
-		{
+	public ItemStack getItemBySlot(EquipmentSlotType slotIn) {
+		switch(slotIn.getType()) {
 		case HAND:
 			return this.inventoryHands.get(slotIn.getIndex());
 		case ARMOR:
@@ -78,10 +72,9 @@ public class DecoyEntity extends LivingEntity {
 	}
 
 	@Override
-	public void setItemStackToSlot(EquipmentSlotType slotIn, ItemStack stack)
+	public void setItemSlot(EquipmentSlotType slotIn, ItemStack stack)
 	{
-		switch(slotIn.getSlotType())
-		{
+		switch(slotIn.getType()) {
 		case HAND:
 			this.inventoryHands.set(slotIn.getIndex(), stack);
 			break;
@@ -91,71 +84,57 @@ public class DecoyEntity extends LivingEntity {
 	}
 
 	@Override
-	public HandSide getPrimaryHand()
-	{
-		return this.dataManager.get(IS_LEFTHANDED) ? HandSide.LEFT : HandSide.RIGHT;
+	public HandSide getMainArm() {
+		return this.entityData.get(IS_LEFTHANDED) ? HandSide.LEFT : HandSide.RIGHT;
 	}
 	
-	public void setPrimaryHand(HandSide side)
-	{
-		this.dataManager.set(IS_LEFTHANDED, side == HandSide.LEFT);
+	public void setPrimaryHand(HandSide side) {
+		this.entityData.set(IS_LEFTHANDED, side == HandSide.LEFT);
 	}
 	
-	public UUID getFakeId()
-	{
-		return this.dataManager.get(FAKE_ID).orElse(UUID.fromString("6ab43178-89fd-4905-97f6-0f67d9d76fd9"));
+	public UUID getFakeId() {
+		return this.entityData.get(FAKE_ID).orElse(UUID.fromString("6ab43178-89fd-4905-97f6-0f67d9d76fd9"));
 	}
 	
-	public void setFakeId(UUID id)
-	{
-		this.dataManager.set(FAKE_ID, Optional.of(id));
+	public void setFakeId(UUID id) {
+		this.entityData.set(FAKE_ID, Optional.of(id));
 	}
 	
 	@Override
-	public void baseTick()
-	{
+	public void baseTick() {
 		super.baseTick();
 		this.age ++;
-		if (this.age > 200)
-		{
+		if (this.age > 200) {
 			this.remove(); //disappears after 10 seconds
 		}
 	}
 	
 	@Override
-	public boolean isInvulnerableTo(DamageSource source)
-	{
+	public boolean isInvulnerableTo(DamageSource source) {
 		return true; //Unkillable, can only disappear on it's own
 	}
 	
 	@Override
-	public void writeAdditional(CompoundNBT compound)
-	{
-		super.writeAdditional(compound);
-		compound.putBoolean("leftHanded", this.dataManager.get(IS_LEFTHANDED));
-		compound.putUniqueId("fakeId", this.getFakeId());
+	public void addAdditionalSaveData(CompoundNBT compound) {
+		super.addAdditionalSaveData(compound);
+		compound.putBoolean("leftHanded", this.entityData.get(IS_LEFTHANDED));
+		compound.putUUID("fakeId", this.getFakeId());
 		compound.putInt("age", this.age);
 		ListNBT listnbt = new ListNBT();
-
-		for(ItemStack itemstack : this.inventoryArmor)
-		{
+		for(ItemStack itemstack : this.inventoryArmor) {
 			CompoundNBT compoundnbt = new CompoundNBT();
-			if (!itemstack.isEmpty())
-			{
-				itemstack.write(compoundnbt);
+			if (!itemstack.isEmpty()) {
+				itemstack.save(compoundnbt);
 			}
 
 			listnbt.add(compoundnbt);
 		}
 		compound.put("ArmorItems", listnbt);
 		ListNBT listnbt1 = new ListNBT();
-
-		for(ItemStack itemstack1 : this.inventoryHands)
-		{
+		for(ItemStack itemstack1 : this.inventoryHands) {
 			CompoundNBT compoundnbt1 = new CompoundNBT();
-			if (!itemstack1.isEmpty())
-			{
-				itemstack1.write(compoundnbt1);
+			if (!itemstack1.isEmpty()) {
+				itemstack1.save(compoundnbt1);
 			}
 			listnbt1.add(compoundnbt1);
 		}
@@ -163,28 +142,21 @@ public class DecoyEntity extends LivingEntity {
 	}
 	
 	@Override
-	public void readAdditional(CompoundNBT compound)
-	{
-		super.readAdditional(compound);
-		this.setFakeId(compound.getUniqueId("fakeId"));
-		this.dataManager.set(IS_LEFTHANDED, compound.getBoolean("leftHanded"));
+	public void readAdditionalSaveData(CompoundNBT compound) {
+		super.readAdditionalSaveData(compound);
+		this.setFakeId(compound.getUUID("fakeId"));
+		this.entityData.set(IS_LEFTHANDED, compound.getBoolean("leftHanded"));
 		this.age = compound.getInt("age");
-		if (compound.contains("ArmorItems", 9))
-		{
+		if (compound.contains("ArmorItems", 9)) {
 			ListNBT listnbt = compound.getList("ArmorItems", 10);
-
-			for(int i = 0; i < this.inventoryArmor.size(); ++i)
-			{
-				this.inventoryArmor.set(i, ItemStack.read(listnbt.getCompound(i)));
+			for(int i = 0; i < this.inventoryArmor.size(); ++i) {
+				this.inventoryArmor.set(i, ItemStack.of(listnbt.getCompound(i)));
 			}
 		}
-
 		if (compound.contains("HandItems", 9)) {
 			ListNBT listnbt1 = compound.getList("HandItems", 10);
-
-			for(int j = 0; j < this.inventoryHands.size(); ++j)
-			{
-				this.inventoryHands.set(j, ItemStack.read(listnbt1.getCompound(j)));
+			for(int j = 0; j < this.inventoryHands.size(); ++j) {
+				this.inventoryHands.set(j, ItemStack.of(listnbt1.getCompound(j)));
 			}
 		}
 	}

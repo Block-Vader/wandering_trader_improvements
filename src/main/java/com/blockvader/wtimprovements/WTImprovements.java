@@ -22,8 +22,7 @@ public class WTImprovements
 	public static final String UPGRADE_AQUATIC_ID = "upgrade_aquatic";
 	public static final String BUZZIER_BEES_ID = "buzzierbees";
 
-	public WTImprovements()
-	{	
+	public WTImprovements() {	
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
         
         MinecraftForge.EVENT_BUS.register(this);
@@ -37,8 +36,7 @@ public class WTImprovements
         ModTileEntities.TILE_ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
-    private void doClientStuff(final FMLClientSetupEvent event)
-    {
+    private void doClientStuff(final FMLClientSetupEvent event) {
     	ClientProxy.registerRenderers();
     }
 }

@@ -14,6 +14,6 @@ public class ModTileEntities {
 
 	public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, WTImprovements.MOD_ID);
 	
-	public static final RegistryObject<TileEntityType<TradeStationTileEntity>> TRADE_STATION = TILE_ENTITY_TYPES.register("trade_station", () -> TileEntityType.Builder.create(TradeStationTileEntity::new, ModBlocks.TRADE_STATION.get()).build(null));
+	public static final RegistryObject<TileEntityType<TradeStationTileEntity>> TRADE_STATION = TILE_ENTITY_TYPES.register("trade_station", () -> TileEntityType.Builder.of(TradeStationTileEntity::new, ModBlocks.TRADE_STATION.get()).build(null));
 	
 }

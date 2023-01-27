@@ -12,8 +12,8 @@ public class ClientProxy {
 	
 	public static void registerRenderers()
 	{
-		Minecraft.getInstance().getItemRenderer().getItemModelMesher().register(ModItems.TOTEM_OF_DECOY.get(), new ModelResourceLocation(ModItems.TOTEM_OF_DECOY.getId(), "inventory"));
-		Minecraft.getInstance().getItemRenderer().getItemModelMesher().register(ModItems.TRADE_STATION.get(), new ModelResourceLocation(ModBlocks.TRADE_STATION.getId(), "inventory"));
+		Minecraft.getInstance().getItemRenderer().getItemModelShaper().register(ModItems.TOTEM_OF_DECOY.get(), new ModelResourceLocation(ModItems.TOTEM_OF_DECOY.getId(), "inventory"));
+		Minecraft.getInstance().getItemRenderer().getItemModelShaper().register(ModItems.TRADE_STATION.get(), new ModelResourceLocation(ModBlocks.TRADE_STATION.getId(), "inventory"));
 		RenderingRegistry.registerEntityRenderingHandler(ModEntities.DECOY.get(), DecoyRenderer::new);
 	}
 }
