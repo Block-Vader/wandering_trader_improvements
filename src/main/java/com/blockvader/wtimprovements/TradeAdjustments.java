@@ -13,6 +13,7 @@ import net.minecraft.block.CropsBlock;
 import net.minecraft.block.FlowerBlock;
 import net.minecraft.block.SaplingBlock;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -20,6 +21,7 @@ import net.minecraft.entity.merchant.villager.VillagerTrades;
 import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
 import net.minecraft.entity.merchant.villager.VillagerTrades.ITrade;
 import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -102,9 +104,11 @@ public class TradeAdjustments {
 			CompoundNBT compound = new CompoundNBT();
 			ListNBT bees = new ListNBT();
 			for (int i = 0; i < this.beeCount; i++) {
-				BeeEntity bee = EntityType.BEE.create(worldIn);
+				BeeEntity bee = new BeeEntity(EntityType.BEE, worldIn);
 				CompoundNBT entityData = new CompoundNBT();
-				bee.save(compound);
+				bee.saveAsPassenger(entityData);
+				System.out.println("Creating a bee, data: " + entityData);
+				bee.remove();
 				CompoundNBT compound1 = new CompoundNBT();
 				compound1.put("EntityData", entityData);
 				compound1.putInt("MinOccupationTicks", 200 + bee.getRandom().nextInt(400));
@@ -240,10 +244,10 @@ public class TradeAdjustments {
 					treasureEnchs.add(ench);
 				}
 			}
-			Enchantment treasure = treasureEnchs.get(rand.nextInt(treasureEnchs.size()));
+			Enchantment enchantment = treasureEnchs.get(rand.nextInt(treasureEnchs.size()));
 			ItemStack stack = new ItemStack(Items.ENCHANTED_BOOK);
-			stack.enchant(treasure, treasure.getMaxLevel());
-			this.price = Math.min(15 * treasure.getMaxLevel(), 64);
+			EnchantedBookItem.addEnchantment(stack, new EnchantmentData(enchantment, enchantment.getMaxLevel()));
+			this.price = Math.min(15 * enchantment.getMaxLevel(), 64);
 			return stack;
 		}
 
