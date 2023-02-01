@@ -11,9 +11,9 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '${mod_version}'
+version = "${mod_version}"
 group = 'com.blockvader.wtimprovements'
-archivesBaseName = '${mod_id}'
+archivesBaseName = "${mod_id}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
@@ -50,7 +50,7 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', '${mod_id}', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', "${mod_id}", '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
                 wt_improvements {
@@ -71,12 +71,12 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": '${mod_name}',
-            "Specification-Vendor": '${mod_author}',
-            "Specification-Version": '${mod_version}',
-            "Implementation-Title": '${mod_name}',
-            "Implementation-Version": '${mod_version}',
-            "Implementation-Vendor": '${mod_author}',
+            "Specification-Title": "${mod_version}",
+            "Specification-Vendor": "${mod_author}",
+            "Specification-Version": "${mod_version}",
+            "Implementation-Title": "${mod_version}",
+            "Implementation-Version": "${mod_version}",
+            "Implementation-Vendor": "${mod_author}",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
