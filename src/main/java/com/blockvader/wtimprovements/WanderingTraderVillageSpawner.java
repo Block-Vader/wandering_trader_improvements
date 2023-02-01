@@ -40,13 +40,12 @@ public class WanderingTraderVillageSpawner {
 			int spawnDelay = data.getSpawnDelay();
 			++spawnDelay;
 			data.setSpawnDelay(spawnDelay);
+			data.setDirty();
 			if (world.getDayTime() % 24000 == 450) {
 				int daysSinceSpawned = spawnDelay/24000;
-				if (random.nextInt(8) < daysSinceSpawned)
-				{
+				if (random.nextInt(8) < daysSinceSpawned) {
 					PlayerEntity playerentity = this.world.getRandomPlayer();
-					if (playerentity != null)
-					{
+					if (playerentity != null) {
 						BlockPos blockpos = playerentity.blockPosition();
 						PointOfInterestManager pointofinterestmanager = this.world.getPoiManager();
 						Optional<BlockPos> optional = pointofinterestmanager.find(PointOfInterestType.MEETING.getPredicate(), (p_221241_0_) -> {

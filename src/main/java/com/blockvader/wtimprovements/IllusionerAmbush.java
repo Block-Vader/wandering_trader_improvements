@@ -65,8 +65,9 @@ public class IllusionerAmbush {
 								default: break;
 							}
 							if (entity.randomTeleport(pos1.getX() + 0.5D, pos1.getY(), pos1.getZ() + 0.5D, false)) {
-								//Trade station will play a sound and emit redstone puls
+								//Trade station will play a sound and emit redstone signal
 								((TradeStationBlock)state.getBlock()).activate(state, pos, entity.level);
+								((WanderingTraderEntity)entity).setWanderTarget(null);
 								return;
 							}
 						}
