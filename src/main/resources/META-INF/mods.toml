@@ -4,7 +4,7 @@ license="MIT License"
 issueTrackerURL="https://github.com/Block-Vader/wandering_trader_improvements/issues"
 [[mods]]
 modId="wt_improvements"
-version="1.16.3-1.1.0.0"
+version="1.16.5-1.2.0.0"
 displayName="Wandering Trader Improvements"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/wandering-trader-improvements"
 logoFile="logo.png"
